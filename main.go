@@ -32,7 +32,7 @@ func main() {
 		log.Fatal(fmt.Errorf("wrong PR number"))
 
 	}
-	r, err := git.PlainOpen("/home/aerfio/website")
+	r, err := git.PlainOpen(".")
 	checkError(err)
 
 	externalRefs := config.RefSpec(fmt.Sprintf("refs/pull/%d/head:refs/heads/%s", number, branch))

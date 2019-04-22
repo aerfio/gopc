@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/fatih/color"
 	"gopkg.in/src-d/go-git.v4"
@@ -13,10 +12,10 @@ import (
 )
 
 func flagInit() (int, string) {
-	color.Set(color.FgGreen, color.Bold)
-	defer color.Unset()
+	color.Set(color.Bold)
 	prID := flag.Int("n", -1, color.HiRedString("number of pull request you want to fetch for review - mandatory"))
 	branch := flag.String("b", "review", color.HiBlueString("name of branch you want PR fetched to"))
+	color.Unset()
 	flag.Parse()
 	return *prID, *branch
 }
@@ -37,7 +36,7 @@ func main() {
 	checkError(err)
 
 	externalRefs := config.RefSpec(fmt.Sprintf("refs/pull/%d/head:refs/heads/%s", number, branch))
-	err = r.Fetch(&git.FetchOptions{Progress: os.Stdout, RemoteName: "upstream", RefSpecs: []config.RefSpec{externalRefs}})
+	err = r.Fetch(&git.FetchOptions{Progress: nil, RemoteName: "upstream", RefSpecs: []config.RefSpec{externalRefs}})
 	checkError(err)
 
 	w, err := r.Worktree()

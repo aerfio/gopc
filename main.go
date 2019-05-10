@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/fatih/color"
 	"gopkg.in/src-d/go-git.v4"
@@ -36,7 +37,7 @@ func main() {
 	checkError(err)
 
 	externalRefs := config.RefSpec(fmt.Sprintf("refs/pull/%d/head:refs/heads/%s", number, branch))
-	err = r.Fetch(&git.FetchOptions{Progress: nil, RemoteName: "upstream", RefSpecs: []config.RefSpec{externalRefs}})
+	err = r.Fetch(&git.FetchOptions{Progress: os.Stdout, RemoteName: "upstream", RefSpecs: []config.RefSpec{externalRefs}})
 	checkError(err)
 
 	w, err := r.Worktree()
